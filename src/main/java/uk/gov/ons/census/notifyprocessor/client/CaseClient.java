@@ -22,7 +22,7 @@ public class CaseClient {
   }
 
   public UacQidDTO getUacQid(String caseId, int questionnaireType) {
-    String url = "http://" + host + ":" + port + "/uacqid/create/";
+    String url = "http://" + host + ":" + port + "/uacqid/create";
     CaseDetailsDTO caseDetails = new CaseDetailsDTO();
     caseDetails.setCaseId(caseId);
     caseDetails.setQuestionnaireType(Integer.toString(questionnaireType));

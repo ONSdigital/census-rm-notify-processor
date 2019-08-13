@@ -17,10 +17,6 @@ public class FulfilmentRequestService {
 
   private boolean testMode;
 
-  private String templateIdReplacementHH;
-
-  private String templateIdIndividualResponse;
-
   private String senderId;
 
   private final NotificationClientApi notificationClient;

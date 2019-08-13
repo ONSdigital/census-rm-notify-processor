@@ -25,5 +25,5 @@ notify:
   senderId: cd2c82c3-a9ff-4915-bb71-f9eddeab2a26
 
 caseapi:
-  host: localhost
-  port: 8161
+  host: case-api
+  port: 80
