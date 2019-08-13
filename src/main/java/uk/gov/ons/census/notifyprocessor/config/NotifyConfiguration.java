@@ -19,8 +19,5 @@ public class NotifyConfiguration {
   public NotificationClientApi notificationClient() {
 
     return new NotificationClient(apiKey, baseUrl);
-
   }
-
-
 }

@@ -1,6 +1,5 @@
 package uk.gov.ons.census.notifyprocessor.model;
 
-import java.time.OffsetDateTime;
 import lombok.Data;
 
 @Data

@@ -1,6 +1,5 @@
 package uk.gov.ons.census.notifyprocessor.messaging;
 
-import java.util.Collections;
 import java.util.Map;
 import org.springframework.integration.annotation.MessageEndpoint;
 import org.springframework.integration.annotation.ServiceActivator;
@@ -24,11 +23,13 @@ public class FulfilmentRequestReceiver {
 
     try {
       SendSmsResponse response =
-          notificationClient.sendSms("abc123", fulfilmentEvent.getPayload().getFulfilmentRequest().getContact().getTelNo(),
-              Map.of("uac", "xxx"), "zzz");
+          notificationClient.sendSms(
+              "abc123",
+              fulfilmentEvent.getPayload().getFulfilmentRequest().getContact().getTelNo(),
+              Map.of("uac", "xxx"),
+              "zzz");
     } catch (NotificationClientException e) {
       throw new RuntimeException(e);
     }
-
   }
 }
