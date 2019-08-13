@@ -1,0 +1,21 @@
+spring:
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 6672
+    virtualhost: /
+
+queueconfig:
+  case-event-exchange: events
+  fulfilment-routing-key: event.fulfilment.request
+  fulfilment-request-inbound-queue: notify.fulfilments
+  consumers: 50
+
+healthcheck:
+  frequency: 1000 #milliseconds
+  filename: /tmp/notifyprocessor-service-healthy
+
+notify:
+  apiKey: dummykey-ffffffff-ffff-ffff-ffff-ffffffffffff-ffffffff-ffff-ffff-ffff-ffffffffffff
+  baseUrl: https://dummy-notify:123
