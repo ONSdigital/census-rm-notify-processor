@@ -18,6 +18,7 @@ import org.springframework.integration.amqp.inbound.AmqpInboundChannelAdapter;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableScheduling
@@ -70,6 +71,11 @@ public class AppConfig {
   @Bean
   public AmqpAdmin amqpAdmin(ConnectionFactory connectionFactory) {
     return new RabbitAdmin(connectionFactory);
+  }
+
+  @Bean
+  public RestTemplate restTemplate() {
+    return new RestTemplate();
   }
 
   @PostConstruct

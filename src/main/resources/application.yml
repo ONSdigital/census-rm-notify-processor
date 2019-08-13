@@ -19,3 +19,8 @@ healthcheck:
 notify:
   apiKey: dummykey-ffffffff-ffff-ffff-ffff-ffffffffffff-ffffffff-ffff-ffff-ffff-ffffffffffff
   baseUrl: https://dummy-notify:123
+  testMode: true
+
+caseapi:
+  host: localhost
+  port: 8161
