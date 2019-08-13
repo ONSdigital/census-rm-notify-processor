@@ -20,6 +20,9 @@ notify:
   apiKey: dummykey-ffffffff-ffff-ffff-ffff-ffffffffffff-ffffffff-ffff-ffff-ffff-ffffffffffff
   baseUrl: https://dummy-notify:123
   testMode: true
+  templateIdReplacementHH: b002e875-1176-423d-ac38-31c7781b7b6e
+  templateIdIndividualResponse: 665c66e2-dd16-4f08-83cf-bde2decd4729
+  senderId: cd2c82c3-a9ff-4915-bb71-f9eddeab2a26
 
 caseapi:
   host: localhost

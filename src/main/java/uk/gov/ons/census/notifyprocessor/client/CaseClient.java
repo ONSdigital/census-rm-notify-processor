@@ -21,10 +21,11 @@ public class CaseClient {
     this.restTemplate = restTemplate;
   }
 
-  public UacQidDTO getUacQid(String caseId) {
+  public UacQidDTO getUacQid(String caseId, int questionnaireType) {
     String url = "http://" + host + ":" + port + "/uacqid/create/";
     CaseDetailsDTO caseDetails = new CaseDetailsDTO();
     caseDetails.setCaseId(caseId);
+    caseDetails.setQuestionnaireType(Integer.toString(questionnaireType));
 
     UacQidDTO uacQid = restTemplate.postForObject(url, caseDetails, UacQidDTO.class);
     return uacQid;

@@ -6,4 +6,6 @@ import lombok.Data;
 public class CaseDetailsDTO {
 
   private String caseId;
+
+  private String questionnaireType;
 }
