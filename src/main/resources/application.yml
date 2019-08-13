@@ -14,7 +14,7 @@ queueconfig:
 
 healthcheck:
   frequency: 1000 #milliseconds
-  filename: /tmp/notifyprocessor-service-healthy
+  filename: /tmp/notify-processor-healthy
 
 notify:
   apiKey: dummykey-ffffffff-ffff-ffff-ffff-ffffffffffff-ffffffff-ffff-ffff-ffff-ffffffffffff
