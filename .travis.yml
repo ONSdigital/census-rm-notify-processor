@@ -25,4 +25,4 @@ cache:
 
 branches:
   only:
-  - rmc-145b.1-fulfilment-event
+  - master
