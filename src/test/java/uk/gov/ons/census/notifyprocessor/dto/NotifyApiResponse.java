@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 public class NotifyApiResponse {
-  UUID id;
-  UUID reference;
-  Content content;
-  Template template;
+  private UUID id;
+  private UUID reference;
+  private Content content;
+  private Template template;
 
   @Data
   public class Content {

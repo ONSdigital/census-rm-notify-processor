@@ -38,7 +38,7 @@ public class FulfilmentRequestReceiverIT {
 
   @Autowired private RabbitQueueHelper rabbitQueueHelper;
 
-  @Rule public WireMockRule wireMockCaseApi = new WireMockRule(wireMockConfig().port(8089));
+  @Rule public WireMockRule wireMock = new WireMockRule(wireMockConfig().port(8089));
 
   @Value("${queueconfig.case-event-exchange}")
   private String caseEventExchange;

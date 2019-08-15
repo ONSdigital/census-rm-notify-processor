@@ -1,11 +1,9 @@
 package uk.gov.ons.census.notifyprocessor.utilities;
 
-import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 import org.springframework.amqp.core.AmqpAdmin;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -21,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 @EnableRetry
 public class RabbitQueueHelper {
+
   @Autowired private ConnectionFactory connectionFactory;
 
   @Autowired private RabbitTemplate testRabbitTemplate;
@@ -44,10 +43,6 @@ public class RabbitQueueHelper {
     return transfer;
   }
 
-  public void sendMessage(String queueName, Object message) {
-    testRabbitTemplate.convertAndSend(queueName, message);
-  }
-
   public void sendMessage(String exchangeName, String routingKey, Object message) {
     testRabbitTemplate.convertAndSend(exchangeName, routingKey, message);
   }
@@ -58,14 +53,5 @@ public class RabbitQueueHelper {
       backoff = @Backoff(delay = 5000))
   public void purgeQueue(String queueName) {
     amqpAdmin.purgeQueue(queueName);
-  }
-
-  public String getMessage(BlockingQueue<String> queue) throws InterruptedException {
-    return queue.poll(20, TimeUnit.SECONDS);
-  }
-
-  public void checkNoMessage(BlockingQueue<String> queue) throws InterruptedException {
-    String actualMessage = queue.poll(5, TimeUnit.SECONDS);
-    assertNull("Received Message", actualMessage);
   }
 }
