@@ -20,12 +20,12 @@ notify:
   apiKey: dummykey-ffffffff-ffff-ffff-ffff-ffffffffffff-ffffffff-ffff-ffff-ffff-ffffffffffff
   baseUrl: https://dummy-notify:123
   testMode: true
-  templateIdReplacementHHE: b002e875-1176-423d-ac38-31c7781b7b6e
-  templateIdReplacementHHW: 877d42e6-f7c1-45fc-8baa-0976d956591f
-  templateIdReplacementHHNI: 0a547921-3f3a-4898-afd5-a1ce27a67070
-  templateIdIndividualResponseE: 665c66e2-dd16-4f08-83cf-bde2decd4729
-  templateIdIndividualResponseW: 35045085-0dec-44e8-a680-f4453908ea6c
-  templateIdIndividualResponseNI: f11ea663-287e-4e01-858c-7b88f6e5c0c8
+  templateIdReplacementHHE: 21447bc2-e7c7- 41ba-8c5e- 7a5893068525
+  templateIdReplacementHHW: ef045f43-ffa8-4047- b8e2-65bfbce0f026
+  templateIdReplacementHHNI: 23f96daf-9674- 4087-acfc- ffe98a52cf16
+  templateIdIndividualResponseE: 1ccd02a4-9b90- 4234-ab7a- 9215cb498f14
+  templateIdIndividualResponseW: 12dbc690-dc0e- 4830-90bb- 8a7d2282a521
+  templateIdIndividualResponseNI: eeed8619-2510- 4871-a8c5- b442f574c358
   senderId: cd2c82c3-a9ff-4915-bb71-f9eddeab2a26
 
 caseapi:
