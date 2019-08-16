@@ -26,7 +26,7 @@ notify:
   templateIdIndividualResponseE: 1ccd02a4-9b90-4234-ab7a-9215cb498f14
   templateIdIndividualResponseW: 12dbc690-dc0e-4830-90bb-8a7d2282a521
   templateIdIndividualResponseNI: eeed8619-2510-4871-a8c5-b442f574c358
-  senderId: cd2c82c3-a9ff-4915-bb71-f9eddeab2a26
+  senderId: b7e75a6c-8f7f-4264-8b34-38bb5831270e
 
 caseapi:
   host: case-api
