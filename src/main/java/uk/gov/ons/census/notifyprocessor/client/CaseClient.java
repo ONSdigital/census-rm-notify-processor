@@ -3,6 +3,7 @@ package uk.gov.ons.census.notifyprocessor.client;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import uk.gov.ons.census.notifyprocessor.model.CaseDetailsDTO;
 import uk.gov.ons.census.notifyprocessor.model.UacQidDTO;
 
@@ -22,12 +23,17 @@ public class CaseClient {
   }
 
   public UacQidDTO getUacQid(String caseId, int questionnaireType) {
-    String url = "http://" + host + ":" + port + "/uacqid/create";
+    UriComponentsBuilder url =
+        UriComponentsBuilder.newInstance()
+            .scheme("http")
+            .host(host)
+            .port(port)
+            .path("/uacqid/create");
     CaseDetailsDTO caseDetails = new CaseDetailsDTO();
     caseDetails.setCaseId(caseId);
     caseDetails.setQuestionnaireType(Integer.toString(questionnaireType));
 
-    UacQidDTO uacQid = restTemplate.postForObject(url, caseDetails, UacQidDTO.class);
+    UacQidDTO uacQid = restTemplate.postForObject(url.toUriString(), caseDetails, UacQidDTO.class);
     return uacQid;
   }
 }
