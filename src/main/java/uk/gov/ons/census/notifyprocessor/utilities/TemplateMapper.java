@@ -7,7 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TemplateMapper {
-
+  public static final int HOUSEHOLD_ENGLAND = 1;
+  public static final int HOUSEHOLD_WALES = 2;
+  public static final int HOUSEHOLD_NI = 4;
+  public static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
+  public static final int INDIVIDUAL_RESPONSE_WALES = 22;
+  public static final int INDIVIDUAL_RESPONSE_NI = 24;
   private final String HH_E;
   private final String HH_W;
   private final String HH_NI;
@@ -34,25 +39,26 @@ public class TemplateMapper {
     Tuple result = null;
     switch (fulfilmentCode) {
       case "UACHHT1":
-        result = new Tuple(1, HH_E);
+        result = new Tuple(HOUSEHOLD_ENGLAND, HH_E);
         break;
       case "UACHHT2":
       case "UACHHT2W":
-        result = new Tuple(2, HH_W);
+        result = new Tuple(HOUSEHOLD_WALES, HH_W);
         break;
       case "UACHHT4":
-        result = new Tuple(4, HH_NI);
+        result = new Tuple(HOUSEHOLD_NI, HH_NI);
         break;
       case "UACIT1":
-        result = new Tuple(21, IR_E);
+        result = new Tuple(INDIVIDUAL_RESPONSE_ENGLAND, IR_E);
         break;
       case "UACIT2":
       case "UACIT2W":
-        result = new Tuple(22, IR_W);
+        result = new Tuple(INDIVIDUAL_RESPONSE_WALES, IR_W);
         break;
       case "UACIT4":
-        result = new Tuple(24, IR_NI);
+        result = new Tuple(INDIVIDUAL_RESPONSE_NI, IR_NI);
         break;
+
       default:
         break;
     }
@@ -63,7 +69,6 @@ public class TemplateMapper {
   @Data
   @AllArgsConstructor
   public static class Tuple {
-
     public int questionnaireType;
     public String templateId;
   }
