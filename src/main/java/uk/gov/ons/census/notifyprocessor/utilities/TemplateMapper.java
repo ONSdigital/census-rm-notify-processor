@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TemplateMapper {
-  public static final int HOUSEHOLD_ENGLAND = 1;
-  public static final int HOUSEHOLD_WALES = 2;
-  public static final int HOUSEHOLD_NI = 4;
-  public static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
-  public static final int INDIVIDUAL_RESPONSE_WALES = 22;
-  public static final int INDIVIDUAL_RESPONSE_NI = 24;
+  private static final int HOUSEHOLD_ENGLAND = 1;
+  private static final int HOUSEHOLD_WALES = 2;
+  private static final int HOUSEHOLD_NI = 4;
+  private static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
+  private static final int INDIVIDUAL_RESPONSE_WALES = 22;
+  private static final int INDIVIDUAL_RESPONSE_NI = 24;
   private final String HH_E;
   private final String HH_W;
   private final String HH_NI;

@@ -1,12 +1,17 @@
 package uk.gov.ons.census.notifyprocessor.utilities;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.*;
 
 import org.junit.Test;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.Tuple;
 
 public class TemplateMapperTest {
+  private static final int HOUSEHOLD_ENGLAND = 1;
+  private static final int HOUSEHOLD_WALES = 2;
+  private static final int HOUSEHOLD_NI = 4;
+  private static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
+  private static final int INDIVIDUAL_RESPONSE_WALES = 22;
+  private static final int INDIVIDUAL_RESPONSE_NI = 24;
 
   @Test
   public void testGetTemplate() {
