@@ -1,0 +1,58 @@
+{
+  "rabbit_version": "3.6.10",
+  "users": [
+    {
+      "name": "guest",
+      "password_hash": "piAaT0q/YwNWqQ8wgX0c5rPOm6OPTHMwSDCEw1sXnUXR9UoO",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "guest",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "parameters": [],
+  "global_parameters": [],
+  "policies": [],
+  "queues": [
+    {
+      "name": "notify.fulfilments",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "events",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "events",
+      "vhost": "/",
+      "destination": "notify.fulfilments",
+      "destination_type": "queue",
+      "routing_key": "event.fulfilment.request",
+      "arguments": {}
+    }
+  ]
+}
