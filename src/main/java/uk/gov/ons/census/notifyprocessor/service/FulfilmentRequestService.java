@@ -1,6 +1,9 @@
 package uk.gov.ons.census.notifyprocessor.service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,18 @@ import uk.gov.service.notify.NotificationClientException;
 
 @Service
 public class FulfilmentRequestService {
+
+  private static final String INDIVIDUAL_QUESTIONNAIRE_REQUEST_ENGLAND = "UACIT1";
+  private static final String INDIVIDUAL_QUESTIONNAIRE_REQUEST_WALES_ENGLISH = "UACIT2";
+  private static final String INDIVIDUAL_QUESTIONNAIRE_REQUEST_WALES_WELSH = "UACIT2W";
+  private static final String INDIVIDUAL_QUESTIONNAIRE_REQUEST_NORTHERN_IRELAND = "UACIT4";
+  private static final Set<String> individualResponseRequestCodes =
+      new HashSet<>(
+          Arrays.asList(
+              INDIVIDUAL_QUESTIONNAIRE_REQUEST_ENGLAND,
+              INDIVIDUAL_QUESTIONNAIRE_REQUEST_WALES_ENGLISH,
+              INDIVIDUAL_QUESTIONNAIRE_REQUEST_WALES_WELSH,
+              INDIVIDUAL_QUESTIONNAIRE_REQUEST_NORTHERN_IRELAND));
 
   private boolean testMode;
 
@@ -39,17 +54,19 @@ public class FulfilmentRequestService {
   }
 
   public void processMessage(ResponseManagementEvent fulfilmentEvent) {
-    Tuple tuple =
-        templateMapper.getTemplate(
-            fulfilmentEvent.getPayload().getFulfilmentRequest().getFulfilmentCode());
+    String fulfilmentCode = fulfilmentEvent.getPayload().getFulfilmentRequest().getFulfilmentCode();
+    Tuple tuple = templateMapper.getTemplate(fulfilmentCode);
     if (tuple == null) {
       return;
     }
 
-    UacQidDTO uacqid =
-        caseClient.getUacQid(
-            fulfilmentEvent.getPayload().getFulfilmentRequest().getCaseId(),
-            tuple.getQuestionnaireType());
+    String caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getCaseId();
+
+    if (individualResponseRequestCodes.contains(fulfilmentCode)) {
+      caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId();
+    }
+
+    UacQidDTO uacqid = caseClient.getUacQid(caseId, tuple.getQuestionnaireType());
 
     if (!testMode) {
       try {

@@ -51,6 +51,35 @@ public class FulfilmentRequestServiceTest {
   }
 
   @Test
+  public void testProcessIndividualRequestMessage() throws NotificationClientException {
+    EasyRandom easyRandom = new EasyRandom();
+    NotificationClientApi notificationClientApi = mock(NotificationClientApi.class);
+    CaseClient caseClient = mock(CaseClient.class);
+    UacQidDTO uacQidDTO = easyRandom.nextObject(UacQidDTO.class);
+    TemplateMapper templateMapper = mock(TemplateMapper.class);
+    when(caseClient.getUacQid(anyString(), anyInt())).thenReturn(uacQidDTO);
+    when(templateMapper.getTemplate(anyString())).thenReturn(new Tuple(1, "testTemplate"));
+    FulfilmentRequestService underTest =
+        new FulfilmentRequestService(
+            notificationClientApi, caseClient, false, "testSenderId", templateMapper);
+
+    ResponseManagementEvent event = easyRandom.nextObject(ResponseManagementEvent.class);
+    event.getPayload().getFulfilmentRequest().setFulfilmentCode("UACIT1");
+
+    underTest.processMessage(event);
+    Map<String, String> testMap = Map.of("uac", uacQidDTO.getUac());
+    verify(caseClient)
+        .getUacQid(eq(event.getPayload().getFulfilmentRequest().getIndividualCaseId()), eq(1));
+    verify(notificationClientApi)
+        .sendSms(
+            eq("testTemplate"),
+            eq(event.getPayload().getFulfilmentRequest().getContact().getTelNo()),
+            eq(testMap),
+            anyString(),
+            eq("testSenderId"));
+  }
+
+  @Test
   public void testProcessMessageTestMode() throws NotificationClientException {
     EasyRandom easyRandom = new EasyRandom();
     NotificationClientApi notificationClientApi = mock(NotificationClientApi.class);
