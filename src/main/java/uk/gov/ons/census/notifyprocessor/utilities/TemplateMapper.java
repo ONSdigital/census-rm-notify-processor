@@ -13,50 +13,48 @@ public class TemplateMapper {
   private static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
   private static final int INDIVIDUAL_RESPONSE_WALES = 22;
   private static final int INDIVIDUAL_RESPONSE_NI = 24;
-  private final String HH_E;
-  private final String HH_W;
-  private final String HH_NI;
-  private final String IR_E;
-  private final String IR_W;
-  private final String IR_NI;
+  private final String templateEnglish;
+  private final String templateWelsh;
+  private final String templateWelshAndEnglish;
+  private final String templateNorthernIreland;
 
   public TemplateMapper(
-      @Value("${notify.templateIdReplacementHHE}") String HH_E,
-      @Value("${notify.templateIdReplacementHHW}") String HH_W,
-      @Value("${notify.templateIdReplacementHHNI}") String HH_NI,
-      @Value("${notify.templateIdIndividualResponseE}") String IR_E,
-      @Value("${notify.templateIdIndividualResponseW}") String IR_W,
-      @Value("${notify.templateIdIndividualResponseNI}") String IR_NI) {
-    this.HH_E = HH_E;
-    this.HH_W = HH_W;
-    this.HH_NI = HH_NI;
-    this.IR_E = IR_E;
-    this.IR_W = IR_W;
-    this.IR_NI = IR_NI;
+      @Value("${notify.templateEnglish}") String templateEnglish,
+      @Value("${notify.templateWelsh}") String templateWelsh,
+      @Value("${notify.templateWelshAndEnglish}") String templateWelshAndEnglish,
+      @Value("${notify.templateNorthernIreland}") String templateNorthernIreland) {
+    this.templateEnglish = templateEnglish;
+    this.templateWelsh = templateWelsh;
+    this.templateWelshAndEnglish = templateWelshAndEnglish;
+    this.templateNorthernIreland = templateNorthernIreland;
   }
 
   public Tuple getTemplate(String fulfilmentCode) {
     Tuple result = null;
     switch (fulfilmentCode) {
       case "UACHHT1":
-        result = new Tuple(HOUSEHOLD_ENGLAND, HH_E);
+        result = new Tuple(HOUSEHOLD_ENGLAND, templateEnglish);
         break;
       case "UACHHT2":
+        result = new Tuple(HOUSEHOLD_WALES, templateWelshAndEnglish);
+        break;
       case "UACHHT2W":
-        result = new Tuple(HOUSEHOLD_WALES, HH_W);
+        result = new Tuple(HOUSEHOLD_WALES, templateWelsh);
         break;
       case "UACHHT4":
-        result = new Tuple(HOUSEHOLD_NI, HH_NI);
+        result = new Tuple(HOUSEHOLD_NI, templateNorthernIreland);
         break;
       case "UACIT1":
-        result = new Tuple(INDIVIDUAL_RESPONSE_ENGLAND, IR_E);
+        result = new Tuple(INDIVIDUAL_RESPONSE_ENGLAND, templateEnglish);
         break;
       case "UACIT2":
+        result = new Tuple(INDIVIDUAL_RESPONSE_WALES, templateWelshAndEnglish);
+        break;
       case "UACIT2W":
-        result = new Tuple(INDIVIDUAL_RESPONSE_WALES, IR_W);
+        result = new Tuple(INDIVIDUAL_RESPONSE_WALES, templateWelsh);
         break;
       case "UACIT4":
-        result = new Tuple(INDIVIDUAL_RESPONSE_NI, IR_NI);
+        result = new Tuple(INDIVIDUAL_RESPONSE_NI, templateNorthernIreland);
         break;
 
       default:

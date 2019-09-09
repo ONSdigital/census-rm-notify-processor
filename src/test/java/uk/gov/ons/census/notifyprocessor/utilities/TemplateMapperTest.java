@@ -18,16 +18,19 @@ public class TemplateMapperTest {
 
     TemplateMapper underTest =
         new TemplateMapper(
-            "TemplateA", "TemplateB", "TemplateC", "TemplateD", "TemplateE", "TemplateF");
+            "TemplateEnglish",
+            "TemplateWelsh",
+            "TemplateWelshAndEnglish",
+            "TemplateNorthernIreland");
 
-    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateA");
-    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateB");
-    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES, "TemplateB");
-    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateC");
-    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateD");
-    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateE");
-    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES, "TemplateE");
-    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateF");
+    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglish");
+    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglish");
+    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES, "TemplateWelsh");
+    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIreland");
+    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglish");
+    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglish");
+    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES, "TemplateWelsh");
+    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIreland");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 
