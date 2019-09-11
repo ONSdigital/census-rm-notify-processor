@@ -1,6 +1,5 @@
 package uk.gov.ons.census.notifyprocessor.messaging;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

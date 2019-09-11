@@ -10,6 +10,8 @@ queueconfig:
   case-event-exchange: events
   fulfilment-routing-key: event.fulfilment.request
   fulfilment-request-inbound-queue: notify.fulfilments
+  enriched-fulfilment-exchange: notify.enriched.fulfilment.exchange
+  enriched-fulfilment-queue: notify.enriched.fulfilment
   consumers: 50
 
 healthcheck:
@@ -19,7 +21,6 @@ healthcheck:
 notify:
   apiKey: dummykey-ffffffff-ffff-ffff-ffff-ffffffffffff-ffffffff-ffff-ffff-ffff-ffffffffffff
   baseUrl: https://dummy-notify:123
-  testMode: true
   templateEnglish: 21447bc2-e7c7-41ba-8c5e-7a5893068525
   templateWelsh: ef045f43-ffa8-4047-b8e2-65bfbce0f026
   templateWelshAndEnglish: 23f96daf-9674-4087-acfc-ffe98a52cf16
