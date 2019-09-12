@@ -19,6 +19,7 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
+import uk.gov.ons.census.notifyprocessor.model.ResponseManagementEvent;
 
 @Configuration
 @EnableScheduling
@@ -77,22 +78,23 @@ public class AppConfig {
   }
 
   @Bean
-  public SimpleMessageListenerContainer fulfilmentContainer(ConnectionFactory connectionFactory) {
-    SimpleMessageListenerContainer container =
-        new SimpleMessageListenerContainer(connectionFactory);
-    container.setQueueNames(fulfilmentInboundQueue);
-    container.setConcurrentConsumers(consumers);
-    return container;
+  public SimpleMessageListenerContainer fulfilmentContainer(
+      ConnectionFactory connectionFactory, MessageErrorHandler messageErrorHandler) {
+    return setupListenerContainer(
+        connectionFactory,
+        fulfilmentInboundQueue,
+        messageErrorHandler,
+        ResponseManagementEvent.class);
   }
 
   @Bean
   public SimpleMessageListenerContainer enrichedFulfilmentContainer(
-      ConnectionFactory connectionFactory) {
-    SimpleMessageListenerContainer container =
-        new SimpleMessageListenerContainer(connectionFactory);
-    container.setQueueNames(enrichedFulfilmentQueue);
-    container.setConcurrentConsumers(consumers);
-    return container;
+      ConnectionFactory connectionFactory, MessageErrorHandler messageErrorHandler) {
+    return setupListenerContainer(
+        connectionFactory,
+        enrichedFulfilmentQueue,
+        messageErrorHandler,
+        ResponseManagementEvent.class);
   }
 
   @Bean
@@ -108,5 +110,19 @@ public class AppConfig {
   @PostConstruct
   public void init() {
     TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+  }
+
+  private SimpleMessageListenerContainer setupListenerContainer(
+      ConnectionFactory connectionFactory,
+      String queueName,
+      MessageErrorHandler messageErrorHandler,
+      Class expectedClass) {
+    SimpleMessageListenerContainer container =
+        new SimpleMessageListenerContainer(connectionFactory);
+    container.setQueueNames(queueName);
+    container.setConcurrentConsumers(consumers);
+    messageErrorHandler.setExpectedType(expectedClass);
+    container.setErrorHandler(messageErrorHandler);
+    return container;
   }
 }
