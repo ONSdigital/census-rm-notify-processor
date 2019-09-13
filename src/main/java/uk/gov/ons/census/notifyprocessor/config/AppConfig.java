@@ -19,6 +19,7 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
+import uk.gov.ons.census.notifyprocessor.model.EnrichedFulfilmentRequest;
 import uk.gov.ons.census.notifyprocessor.model.ResponseManagementEvent;
 
 @Configuration
@@ -94,7 +95,7 @@ public class AppConfig {
         connectionFactory,
         enrichedFulfilmentQueue,
         messageErrorHandler,
-        ResponseManagementEvent.class);
+        EnrichedFulfilmentRequest.class);
   }
 
   @Bean
