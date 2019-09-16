@@ -1,5 +1,6 @@
 package uk.gov.ons.census.notifyprocessor.config;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.util.TimeZone;
@@ -75,6 +76,7 @@ public class AppConfig {
   public Jackson2JsonMessageConverter messageConverter() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     return new Jackson2JsonMessageConverter(objectMapper);
   }
 
