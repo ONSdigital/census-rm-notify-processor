@@ -10,6 +10,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import lombok.Data;
 import org.springframework.amqp.rabbit.listener.exception.ListenerExecutionFailedException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -38,6 +39,9 @@ public class MessageErrorHandler implements ErrorHandler {
 
   private Class expectedType;
 
+  @Value("${messagelogging.logstacktraces}")
+  private boolean logStackTraces;
+
   @Override
   public void handleError(Throwable throwable) {
     if (throwable instanceof ListenerExecutionFailedException) {
@@ -45,12 +49,22 @@ public class MessageErrorHandler implements ErrorHandler {
           (ListenerExecutionFailedException) throwable;
       byte[] rawMessageBody = failedException.getFailedMessage().getBody();
       String messageBody = new String(rawMessageBody);
-      String messageHash = bytesToHexString(digest.digest(rawMessageBody));
+      String messageHash;
+      // Digest is not thread-safe
+      synchronized (digest) {
+        messageHash = bytesToHexString(digest.digest(rawMessageBody));
+      }
 
-      log.with("message_hash", messageHash)
-          .with("valid_json", validateJson(messageBody))
-          .with("cause", failedException.getCause().getMessage())
-          .error("Could not process message");
+      if (logStackTraces) {
+        log.with("message_hash", messageHash)
+            .with("valid_json", validateJson(messageBody))
+            .error("Could not process message", failedException.getCause());
+      } else {
+        log.with("message_hash", messageHash)
+            .with("valid_json", validateJson(messageBody))
+            .with("cause", failedException.getCause().getMessage())
+            .error("Could not process message");
+      }
     } else {
       log.error("Unexpected exception has occurred", throwable);
     }
