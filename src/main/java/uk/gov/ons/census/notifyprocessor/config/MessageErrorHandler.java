@@ -49,12 +49,22 @@ public class MessageErrorHandler implements ErrorHandler {
           (ListenerExecutionFailedException) throwable;
       byte[] rawMessageBody = failedException.getFailedMessage().getBody();
       String messageBody = new String(rawMessageBody);
-      String messageHash = bytesToHexString(digest.digest(rawMessageBody));
+      String messageHash;
+      // Digest is not thread-safe
+      synchronized (digest) {
+        messageHash = bytesToHexString(digest.digest(rawMessageBody));
+      }
 
-      log.with("message_hash", messageHash)
-          .with("valid_json", validateJson(messageBody))
-          .with("cause", failedException.getCause().getMessage())
-          .error("Could not process message");
+      if (logStackTraces) {
+        log.with("message_hash", messageHash)
+            .with("valid_json", validateJson(messageBody))
+            .error("Could not process message", failedException.getCause());
+      } else {
+        log.with("message_hash", messageHash)
+            .with("valid_json", validateJson(messageBody))
+            .with("cause", failedException.getCause().getMessage())
+            .error("Could not process message");
+      }
     } else {
       log.error("Unexpected exception has occurred", throwable);
     }
