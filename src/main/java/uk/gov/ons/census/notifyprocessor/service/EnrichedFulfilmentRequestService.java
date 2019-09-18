@@ -30,7 +30,7 @@ public class EnrichedFulfilmentRequestService {
           UUID.randomUUID().toString(),
           senderId);
     } catch (NotificationClientException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Could not send SMS", e);
     }
   }
 }
