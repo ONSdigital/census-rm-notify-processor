@@ -44,7 +44,8 @@ public class FulfilmentRequestServiceTest {
     ArgumentCaptor<EnrichedFulfilmentRequest> enrichedFulfilmentRequestArgumentCaptor =
         ArgumentCaptor.forClass(EnrichedFulfilmentRequest.class);
     verify(rabbitTemplate)
-        .convertAndSend(eq("testExchange"), eq(""), enrichedFulfilmentRequestArgumentCaptor.capture());
+        .convertAndSend(
+            eq("testExchange"), eq(""), enrichedFulfilmentRequestArgumentCaptor.capture());
     EnrichedFulfilmentRequest actualEnrichedFulfilmentRequest =
         enrichedFulfilmentRequestArgumentCaptor.getValue();
     assertThat(actualEnrichedFulfilmentRequest.getUac()).isEqualTo("AAAA BBBB CCCC DDDD");
