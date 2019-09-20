@@ -72,7 +72,7 @@ public class FulfilmentRequestReceiverIT {
 
     UacQidDTO uacQidDTO = new UacQidDTO();
     uacQidDTO.setQid("test QID");
-    uacQidDTO.setUac("test UAC");
+    uacQidDTO.setUac("aaaabbbbccccdddd");
 
     String returnJson = objectMapper.writeValueAsString(uacQidDTO);
 
