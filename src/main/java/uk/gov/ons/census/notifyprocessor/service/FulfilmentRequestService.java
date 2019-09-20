@@ -65,7 +65,12 @@ public class FulfilmentRequestService {
     enrichedFulfilmentRequest.setTemplateId(tuple.getTemplateId());
     enrichedFulfilmentRequest.setMobileNumber(
         fulfilmentEvent.getPayload().getFulfilmentRequest().getContact().getTelNo());
-    enrichedFulfilmentRequest.setUac(uacqid.getUac());
+    String uac = uacqid.getUac();
+    String formattedUac =
+        String.format(
+            "%s %s %s %s",
+            uac.substring(0, 4), uac.substring(4, 8), uac.substring(8, 12), uac.substring(12, 16));
+    enrichedFulfilmentRequest.setUac(formattedUac.toUpperCase());
 
     // Send a message to ourselves - in case Gov Notify is down
     rabbitTemplate.convertAndSend(enrichedFulfilmentExchange, "", enrichedFulfilmentRequest);
