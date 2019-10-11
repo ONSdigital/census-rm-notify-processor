@@ -20,12 +20,17 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
+import uk.gov.ons.census.notifyprocessor.client.ExceptionManagerClient;
+import uk.gov.ons.census.notifyprocessor.messaging.MessageErrorHandler;
 import uk.gov.ons.census.notifyprocessor.model.EnrichedFulfilmentRequest;
 import uk.gov.ons.census.notifyprocessor.model.ResponseManagementEvent;
 
 @Configuration
 @EnableScheduling
 public class AppConfig {
+  @Value("${messagelogging.logstacktraces}")
+  private boolean logStackTraces;
+
   @Value("${queueconfig.consumers}")
   private int consumers;
 
@@ -82,21 +87,21 @@ public class AppConfig {
 
   @Bean
   public SimpleMessageListenerContainer fulfilmentContainer(
-      ConnectionFactory connectionFactory, MessageErrorHandler messageErrorHandler) {
+      ConnectionFactory connectionFactory, ExceptionManagerClient exceptionManagerClient) {
     return setupListenerContainer(
         connectionFactory,
         fulfilmentInboundQueue,
-        messageErrorHandler,
+        exceptionManagerClient,
         ResponseManagementEvent.class);
   }
 
   @Bean
   public SimpleMessageListenerContainer enrichedFulfilmentContainer(
-      ConnectionFactory connectionFactory, MessageErrorHandler messageErrorHandler) {
+      ConnectionFactory connectionFactory, ExceptionManagerClient exceptionManagerClient) {
     return setupListenerContainer(
         connectionFactory,
         enrichedFulfilmentQueue,
-        messageErrorHandler,
+        exceptionManagerClient,
         EnrichedFulfilmentRequest.class);
   }
 
@@ -118,13 +123,19 @@ public class AppConfig {
   private SimpleMessageListenerContainer setupListenerContainer(
       ConnectionFactory connectionFactory,
       String queueName,
-      MessageErrorHandler messageErrorHandler,
-      Class expectedClass) {
+      ExceptionManagerClient exceptionManagerClient,
+      Class expectedMessageType) {
     SimpleMessageListenerContainer container =
         new SimpleMessageListenerContainer(connectionFactory);
     container.setQueueNames(queueName);
     container.setConcurrentConsumers(consumers);
-    messageErrorHandler.setExpectedType(expectedClass);
+    MessageErrorHandler messageErrorHandler =
+        new MessageErrorHandler(
+            exceptionManagerClient,
+            expectedMessageType,
+            logStackTraces,
+            "Notify Processor",
+            queueName);
     container.setErrorHandler(messageErrorHandler);
     container.setChannelTransacted(true);
     return container;
