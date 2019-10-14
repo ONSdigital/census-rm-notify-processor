@@ -104,8 +104,9 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
               queueName,
               listenerExecutionFailedException.getCause().getCause());
     } catch (Exception exceptionManagerClientException) {
-      log.with("reason", exceptionManagerClientException.getMessage()).warn(
-          "Could not report to Exception Manager. There will be excessive logging until resolved");
+      log.with("reason", exceptionManagerClientException.getMessage())
+          .warn(
+              "Could not report to Exception Manager. There will be excessive logging until resolved");
     }
     return reportResult;
   }
@@ -219,4 +220,3 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
     }
   }
 }
-
