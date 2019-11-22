@@ -31,14 +31,30 @@
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "delayedRedeliveryExchange",
+        "x-dead-letter-routing-key": "notify.fulfilments"
+      }
     },
     {
       "name": "notify.enriched.fulfilment",
       "vhost": "/",
       "durable": true,
       "auto_delete": false,
-      "arguments": {}
+      "arguments": {
+        "x-dead-letter-exchange": "delayedRedeliveryExchange",
+        "x-dead-letter-routing-key": "notify.enriched.fulfilment"
+      }
+    },
+    {
+      "name": "delayedRedeliveryQueue",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "",
+        "x-message-ttl": 2000
+      }
     }
   ],
   "exchanges": [
@@ -59,6 +75,15 @@
       "auto_delete": false,
       "internal": false,
       "arguments": {}
+    },
+    {
+      "name": "delayedRedeliveryExchange",
+      "vhost": "/",
+      "type": "headers",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
     }
   ],
   "bindings": [
@@ -74,6 +99,14 @@
       "source": "notify.enriched.fulfilment.exchange",
       "vhost": "/",
       "destination": "notify.enriched.fulfilment",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "delayedRedeliveryExchange",
+      "vhost": "/",
+      "destination": "delayedRedeliveryQueue",
       "destination_type": "queue",
       "routing_key": "",
       "arguments": {}
