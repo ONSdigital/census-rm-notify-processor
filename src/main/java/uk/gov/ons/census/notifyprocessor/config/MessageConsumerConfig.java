@@ -39,9 +39,6 @@ public class MessageConsumerConfig {
   @Value("${queueconfig.retry-delay}")
   private int retryDelay;
 
-  @Value("${queueconfig.quarantine-exchange}")
-  private String quarantineExchange;
-
   @Value("${queueconfig.fulfilment-request-inbound-queue}")
   private String fulfilmentInboundQueue;
 
