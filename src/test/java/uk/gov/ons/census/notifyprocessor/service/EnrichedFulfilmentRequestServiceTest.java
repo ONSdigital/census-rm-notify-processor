@@ -51,4 +51,46 @@ public class EnrichedFulfilmentRequestServiceTest {
 
     underTest.processMessage(enrichedFulfilmentRequest);
   }
+
+  @Test
+  public void testProcessMessageNotifyApiServiceFailsBadPhoneNumber()
+      throws NotificationClientException {
+    EasyRandom easyRandom = new EasyRandom();
+    NotificationClientApi notificationClientApi = mock(NotificationClientApi.class);
+    EnrichedFulfilmentRequestService underTest =
+        new EnrichedFulfilmentRequestService(notificationClientApi, "testSenderId");
+    NotificationClientException notificationClientException =
+        new NotificationClientException(
+            "Status code: 400 {\"errors\":[{\"error\":\"ValidationError\","
+                + "\"message\":\"phone_number Not a valid country prefix\"}],\"status_code\":400}");
+
+    when(notificationClientApi.sendSms(
+            anyString(), anyString(), anyMap(), anyString(), anyString()))
+        .thenThrow(notificationClientException);
+    EnrichedFulfilmentRequest enrichedFulfilmentRequest =
+        easyRandom.nextObject(EnrichedFulfilmentRequest.class);
+
+    underTest.processMessage(enrichedFulfilmentRequest);
+  }
+
+  @Test
+  public void testProcessMessageNotifyApiServiceFailsNonUkPhoneNumber()
+      throws NotificationClientException {
+    EasyRandom easyRandom = new EasyRandom();
+    NotificationClientApi notificationClientApi = mock(NotificationClientApi.class);
+    EnrichedFulfilmentRequestService underTest =
+        new EnrichedFulfilmentRequestService(notificationClientApi, "testSenderId");
+    NotificationClientException notificationClientException =
+        new NotificationClientException(
+            "Status code: 400 {\"errors\":[{\"error\":\"BadRequestError\","
+                + "\"message\":\"Cannot send to international mobile numbers\"}],\"status_code\":400}");
+
+    when(notificationClientApi.sendSms(
+            anyString(), anyString(), anyMap(), anyString(), anyString()))
+        .thenThrow(notificationClientException);
+    EnrichedFulfilmentRequest enrichedFulfilmentRequest =
+        easyRandom.nextObject(EnrichedFulfilmentRequest.class);
+
+    underTest.processMessage(enrichedFulfilmentRequest);
+  }
 }
