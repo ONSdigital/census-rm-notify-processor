@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
 public class TemplateMapper {
   private static final int HOUSEHOLD_ENGLAND = 1;
   private static final int HOUSEHOLD_WALES = 2;
+  private static final int HOUSEHOLD_WALES_IN_WELSH = 3;
   private static final int HOUSEHOLD_NI = 4;
   private static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
   private static final int INDIVIDUAL_RESPONSE_WALES = 22;
+  private static final int INDIVIDUAL_RESPONSE_WALES_IN_WELSH = 23;
   private static final int INDIVIDUAL_RESPONSE_NI = 24;
   private final String templateEnglish;
-  private final String templateWelsh;
   private final String templateWelshAndEnglish;
+  private final String templateWelsh;
   private final String templateNorthernIreland;
 
   public TemplateMapper(
@@ -39,7 +41,7 @@ public class TemplateMapper {
         result = new Tuple(HOUSEHOLD_WALES, templateWelshAndEnglish);
         break;
       case "UACHHT2W":
-        result = new Tuple(HOUSEHOLD_WALES, templateWelsh);
+        result = new Tuple(HOUSEHOLD_WALES_IN_WELSH, templateWelsh);
         break;
       case "UACHHT4":
         result = new Tuple(HOUSEHOLD_NI, templateNorthernIreland);
@@ -51,7 +53,7 @@ public class TemplateMapper {
         result = new Tuple(INDIVIDUAL_RESPONSE_WALES, templateWelshAndEnglish);
         break;
       case "UACIT2W":
-        result = new Tuple(INDIVIDUAL_RESPONSE_WALES, templateWelsh);
+        result = new Tuple(INDIVIDUAL_RESPONSE_WALES_IN_WELSH, templateWelsh);
         break;
       case "UACIT4":
         result = new Tuple(INDIVIDUAL_RESPONSE_NI, templateNorthernIreland);

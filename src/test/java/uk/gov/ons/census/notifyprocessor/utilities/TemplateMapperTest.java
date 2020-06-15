@@ -8,9 +8,11 @@ import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.Tuple;
 public class TemplateMapperTest {
   private static final int HOUSEHOLD_ENGLAND = 1;
   private static final int HOUSEHOLD_WALES = 2;
+  private static final int HOUSEHOLD_WALES_IN_WELSH = 3;
   private static final int HOUSEHOLD_NI = 4;
   private static final int INDIVIDUAL_RESPONSE_ENGLAND = 21;
   private static final int INDIVIDUAL_RESPONSE_WALES = 22;
+  private static final int INDIVIDUAL_RESPONSE_WALES_IN_WELSH = 23;
   private static final int INDIVIDUAL_RESPONSE_NI = 24;
 
   @Test
@@ -25,11 +27,11 @@ public class TemplateMapperTest {
 
     testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglish");
     testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES, "TemplateWelsh");
+    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "TemplateWelsh");
     testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIreland");
     testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglish");
     testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES, "TemplateWelsh");
+    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "TemplateWelsh");
     testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIreland");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
