@@ -3,7 +3,7 @@ package uk.gov.ons.census.notifyprocessor.model;
 import lombok.Data;
 
 @Data
-public class CaseDetailsDTO {
+public class CaseDetails {
 
   private String caseId;
 

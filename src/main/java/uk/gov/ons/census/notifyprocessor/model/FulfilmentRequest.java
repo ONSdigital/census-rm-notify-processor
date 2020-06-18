@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class FulfilmentRequestDTO {
+public class FulfilmentRequest {
 
   @JsonInclude(Include.NON_NULL)
   private String caseId;

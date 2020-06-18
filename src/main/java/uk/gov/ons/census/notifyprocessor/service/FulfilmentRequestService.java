@@ -1,15 +1,24 @@
 package uk.gov.ons.census.notifyprocessor.service;
 
+import static uk.gov.ons.census.notifyprocessor.model.EventType.RM_UAC_CREATED;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import uk.gov.ons.census.notifyprocessor.client.CaseClient;
+import uk.gov.ons.census.notifyprocessor.cache.UacQidCache;
 import uk.gov.ons.census.notifyprocessor.model.EnrichedFulfilmentRequest;
+import uk.gov.ons.census.notifyprocessor.model.Event;
+import uk.gov.ons.census.notifyprocessor.model.Payload;
 import uk.gov.ons.census.notifyprocessor.model.ResponseManagementEvent;
-import uk.gov.ons.census.notifyprocessor.model.UacQidDTO;
+import uk.gov.ons.census.notifyprocessor.model.UacQid;
+import uk.gov.ons.census.notifyprocessor.model.UacQidCreated;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.Tuple;
 
@@ -28,7 +37,7 @@ public class FulfilmentRequestService {
               INDIVIDUAL_QUESTIONNAIRE_REQUEST_WALES_WELSH,
               INDIVIDUAL_QUESTIONNAIRE_REQUEST_NORTHERN_IRELAND));
 
-  private final CaseClient caseClient;
+  private final UacQidCache uacQidCache;
 
   private final TemplateMapper templateMapper;
 
@@ -36,15 +45,19 @@ public class FulfilmentRequestService {
 
   private final String enrichedFulfilmentExchange;
 
+  private final String uacQidCreatedExchange;
+
   public FulfilmentRequestService(
-      CaseClient caseClient,
+      UacQidCache uacQidCache,
       TemplateMapper templateMapper,
       RabbitTemplate rabbitTemplate,
-      @Value("${queueconfig.enriched-fulfilment-exchange}") String enrichedFulfilmentExchange) {
-    this.caseClient = caseClient;
+      @Value("${queueconfig.enriched-fulfilment-exchange}") String enrichedFulfilmentExchange,
+      @Value("${queueconfig.uac-qid-created-exchange}") String uacQidCreatedExchange) {
+    this.uacQidCache = uacQidCache;
     this.templateMapper = templateMapper;
     this.rabbitTemplate = rabbitTemplate;
     this.enrichedFulfilmentExchange = enrichedFulfilmentExchange;
+    this.uacQidCreatedExchange = uacQidCreatedExchange;
   }
 
   public void processMessage(ResponseManagementEvent fulfilmentEvent) {
@@ -60,7 +73,8 @@ public class FulfilmentRequestService {
       caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId();
     }
 
-    UacQidDTO uacqid = caseClient.getUacQid(caseId, tuple.getQuestionnaireType());
+    UacQid uacqid = getUacQidPair(tuple.getQuestionnaireType(), caseId);
+
     EnrichedFulfilmentRequest enrichedFulfilmentRequest = new EnrichedFulfilmentRequest();
     enrichedFulfilmentRequest.setTemplateId(tuple.getTemplateId());
     enrichedFulfilmentRequest.setMobileNumber(
@@ -74,5 +88,29 @@ public class FulfilmentRequestService {
 
     // Send a message to ourselves - in case Gov Notify is down
     rabbitTemplate.convertAndSend(enrichedFulfilmentExchange, "", enrichedFulfilmentRequest);
+  }
+
+  private UacQid getUacQidPair(int questionnaireType, String caseId) {
+    UacQid uacqid = uacQidCache.getUacQidPair(questionnaireType);
+
+    UacQidCreated uacQidCreated = new UacQidCreated();
+    uacQidCreated.setCaseId(caseId);
+    uacQidCreated.setQid(uacqid.getQid());
+    uacQidCreated.setUac(uacqid.getUac());
+
+    Event event = new Event();
+    event.setType(RM_UAC_CREATED);
+    event.setDateTime(DateTimeFormatter.ISO_DATE_TIME.format(OffsetDateTime.now(ZoneId.of("UTC"))));
+    event.setTransactionId(UUID.randomUUID().toString());
+    ResponseManagementEvent responseManagementEvent = new ResponseManagementEvent();
+    responseManagementEvent.setEvent(event);
+    Payload payload = new Payload();
+    payload.setUacQidCreated(uacQidCreated);
+    responseManagementEvent.setPayload(payload);
+
+    // This message to Case Processor will ensure the UAC-QID is persisted: eventual consistency
+    rabbitTemplate.convertAndSend(uacQidCreatedExchange, "", responseManagementEvent);
+
+    return uacqid;
   }
 }
