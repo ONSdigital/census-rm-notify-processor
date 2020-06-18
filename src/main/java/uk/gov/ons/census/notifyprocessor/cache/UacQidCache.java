@@ -48,7 +48,7 @@ public class UacQidCache {
         // down
         // So check we get a non null result otherwise throw a RunTimeException to re-enqueue msg
         throw new RuntimeException(
-            "Timeout getting UacQidDTO for questionnaireType :" + questionnaireType);
+            "Timeout getting UAC QID for questionnaireType :" + questionnaireType);
       }
 
       return uacQid;

@@ -120,7 +120,7 @@ public class FulfilmentRequestReceiverIT {
     uacQid.setQid(String.format("%02d", questionnaireType) + uacQid.getQid());
     UacQid[] uacQidList = new UacQid[1];
     uacQidList[0] = uacQid;
-    String uacQidDtoJson = objectMapper.writeValueAsString(uacQidList);
+    String uacQidJson = objectMapper.writeValueAsString(uacQidList);
     stubFor(
         get(urlPathEqualTo(MULTIPLE_QIDS_URL))
             .withQueryParam("questionnaireType", equalTo(Integer.toString(questionnaireType)))
@@ -128,7 +128,7 @@ public class FulfilmentRequestReceiverIT {
                 aResponse()
                     .withStatus(HttpStatus.OK.value())
                     .withHeader("Content-Type", "application/json")
-                    .withBody(uacQidDtoJson)));
+                    .withBody(uacQidJson)));
     return uacQid;
   }
 }
