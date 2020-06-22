@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ResponseManagementEvent {
-  private EventDTO event;
-  private PayloadDTO payload;
+  private Event event;
+  private Payload payload;
 }

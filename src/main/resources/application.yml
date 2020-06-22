@@ -7,11 +7,11 @@ spring:
     virtualhost: /
 
 queueconfig:
-  case-event-exchange: events
   fulfilment-routing-key: event.fulfilment.request
   fulfilment-request-inbound-queue: notify.fulfilments
   enriched-fulfilment-exchange: notify.enriched.fulfilment.exchange
   enriched-fulfilment-queue: notify.enriched.fulfilment
+  uac-qid-created-exchange: uac-qid-created-exchange
   consumers: 50
   retry-attempts: 3
   retry-delay: 1000 #milliseconds
@@ -29,9 +29,15 @@ notify:
   templateNorthernIreland: 1ccd02a4-9b90-4234-ab7a-9215cb498f14
   senderId: b7e75a6c-8f7f-4264-8b34-38bb5831270e
 
-caseapi:
-  host: case-api
-  port: 80
+uacservice:
+  connection:
+    scheme: http
+    host: localhost
+    port: 8164
+
+  uacqid-cache-min: 500
+  uacqid-fetch-count: 1000
+  uacqid-get-timeout: 5   #seconds
 
 exceptionmanager:
   connection:
