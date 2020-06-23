@@ -7,6 +7,7 @@ import com.godaddy.logging.LoggerFactory;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import net.logstash.logback.encoder.org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.retry.MessageRecoverer;
@@ -64,8 +65,11 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
         messageHash = bytesToHexString(digest.digest(rawMessageBody));
       }
 
+      String stackTraceRootCause =
+          findUsefulRootCauseInStackTrace(listenerExecutionFailedException.getCause());
       ExceptionReportResponse reportResult =
-          getExceptionReportResponse(listenerExecutionFailedException, messageHash);
+          getExceptionReportResponse(
+              listenerExecutionFailedException, messageHash, stackTraceRootCause);
 
       if (skipMessage(
           reportResult, messageHash, rawMessageBody, listenerExecutionFailedException, message)) {
@@ -74,7 +78,11 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
 
       peekMessage(reportResult, messageHash, rawMessageBody);
       logMessage(
-          reportResult, listenerExecutionFailedException.getCause(), messageHash, rawMessageBody);
+          reportResult,
+          listenerExecutionFailedException.getCause(),
+          messageHash,
+          rawMessageBody,
+          stackTraceRootCause);
 
       // Reject the original message where it'll be retried at some future point in time
       throw new AmqpRejectAndDontRequeueException(
@@ -86,7 +94,9 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
   }
 
   private ExceptionReportResponse getExceptionReportResponse(
-      ListenerExecutionFailedException listenerExecutionFailedException, String messageHash) {
+      ListenerExecutionFailedException listenerExecutionFailedException,
+      String messageHash,
+      String stackTraceRootCause) {
     ExceptionReportResponse reportResult = null;
     try {
       reportResult =
@@ -94,7 +104,8 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
               messageHash,
               serviceName,
               queueName,
-              listenerExecutionFailedException.getCause().getCause());
+              listenerExecutionFailedException.getCause().getCause(),
+              stackTraceRootCause);
     } catch (Exception exceptionManagerClientException) {
       log.with("reason", exceptionManagerClientException.getMessage())
           .warn(
@@ -170,7 +181,8 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
       ExceptionReportResponse reportResult,
       Throwable cause,
       String messageHash,
-      byte[] rawMessageBody) {
+      byte[] rawMessageBody,
+      String stackTraceRootCause) {
     if (reportResult != null && !reportResult.isLogIt()) {
       return;
     }
@@ -183,6 +195,7 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
       log.with("message_hash", messageHash)
           .with("valid_json", validateJson(rawMessageBody))
           .with("cause", cause.getMessage())
+          .with("root_cause", stackTraceRootCause)
           .error("Could not process message");
     }
   }
@@ -206,5 +219,18 @@ public class ManagedMessageRecoverer implements MessageRecoverer {
     } catch (IOException e) {
       return String.format("Invalid JSON: %s", e.getMessage());
     }
+  }
+
+  private String findUsefulRootCauseInStackTrace(Throwable cause) {
+    String[] stackTrace = ExceptionUtils.getRootCauseStackTrace(cause);
+
+    // Iterate through the stack trace until we hit the first problem with our code
+    for (String stackTraceLine : stackTrace) {
+      if (stackTraceLine.contains("uk.gov.ons.census")) {
+        return stackTraceLine;
+      }
+    }
+
+    return stackTrace[0];
   }
 }
