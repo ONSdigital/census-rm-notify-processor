@@ -14,6 +14,9 @@ public class TemplateMapperTest {
   private static final int INDIVIDUAL_RESPONSE_WALES = 22;
   private static final int INDIVIDUAL_RESPONSE_WALES_IN_WELSH = 23;
   private static final int INDIVIDUAL_RESPONSE_NI = 24;
+  private static final int CE_ENGLAND = 31;
+  private static final int CE_WALES = 32;
+  private static final int CE_WALES_IN_WELSH = 33;
 
   @Test
   public void testGetTemplate() {
@@ -33,6 +36,9 @@ public class TemplateMapperTest {
     testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglish");
     testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "TemplateWelsh");
     testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIreland");
+    testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglish");
+    testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglish");
+    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelsh");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 

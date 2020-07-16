@@ -15,6 +15,9 @@ public class TemplateMapper {
   private static final int INDIVIDUAL_RESPONSE_WALES = 22;
   private static final int INDIVIDUAL_RESPONSE_WALES_IN_WELSH = 23;
   private static final int INDIVIDUAL_RESPONSE_NI = 24;
+  private static final int CE_ENGLAND = 31;
+  private static final int CE_WALES = 32;
+  private static final int CE_WALES_IN_WELSH = 33;
   private final String templateEnglish;
   private final String templateWelshAndEnglish;
   private final String templateWelsh;
@@ -57,6 +60,15 @@ public class TemplateMapper {
         break;
       case "UACIT4":
         result = new Tuple(INDIVIDUAL_RESPONSE_NI, templateNorthernIreland);
+        break;
+      case "UACCET1":
+        result = new Tuple(CE_ENGLAND, templateEnglish);
+        break;
+      case "UACCET2":
+        result = new Tuple(CE_WALES, templateWelshAndEnglish);
+        break;
+      case "UACCET2W":
+        result = new Tuple(CE_WALES_IN_WELSH, templateWelsh);
         break;
 
       default:
