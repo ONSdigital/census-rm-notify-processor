@@ -36,19 +36,23 @@ public class TemplateMapperTest {
             "TemplateWelshAndEnglishCe");
 
     testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglishHouseHold");
-    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES,
-            "TemplateWelshAndEnglishHouseHold");
-    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH,
-            "TemplateWelshHouseHold");
+    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglishHouseHold");
+    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "TemplateWelshHouseHold");
     testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIrelandHouseHold");
-    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND,
-            "TemplateEnglishIndividualResponse");
-    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES,
-            "TemplateWelshAndEnglishIndividualResponse");
-    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH,
-            "TemplateWelshIndividualResponse");
-    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI,
-            "TemplateNorthernIrelandIndividualResponse");
+    testTemplate(
+        underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglishIndividualResponse");
+    testTemplate(
+        underTest,
+        "UACIT2",
+        INDIVIDUAL_RESPONSE_WALES,
+        "TemplateWelshAndEnglishIndividualResponse");
+    testTemplate(
+        underTest,
+        "UACIT2W",
+        INDIVIDUAL_RESPONSE_WALES_IN_WELSH,
+        "TemplateWelshIndividualResponse");
+    testTemplate(
+        underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIrelandIndividualResponse");
     testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglishCe");
     testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglishCe");
     testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelshCe");

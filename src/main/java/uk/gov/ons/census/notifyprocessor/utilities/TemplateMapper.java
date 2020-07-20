@@ -35,10 +35,13 @@ public class TemplateMapper {
       @Value("${notify.templateWelshHouseHold}") String templateWelshHouseHold,
       @Value("${notify.templateWelshAndEnglishHouseHold}") String templateWelshAndEnglishHouseHold,
       @Value("${notify.templateNorthernIrelandHouseHold}") String templateNorthernIrelandHouseHold,
-      @Value("${notify.templateEnglishIndividualResponse}") String templateEnglishIndividualResponse,
+      @Value("${notify.templateEnglishIndividualResponse}")
+          String templateEnglishIndividualResponse,
       @Value("${notify.templateWelshIndividualResponse}") String templateWelshIndividualResponse,
-      @Value("${notify.templateWelshAndEnglishIndividualResponse}") String templateWelshAndEnglishIndividualResponse,
-      @Value("${notify.templateNorthernIrelandIndividualResponse}") String templateNorthernIrelandIndividualResponse,
+      @Value("${notify.templateWelshAndEnglishIndividualResponse}")
+          String templateWelshAndEnglishIndividualResponse,
+      @Value("${notify.templateNorthernIrelandIndividualResponse}")
+          String templateNorthernIrelandIndividualResponse,
       @Value("${notify.templateEnglishCe}") String templateEnglishCe,
       @Value("${notify.templateWelshCe}") String templateWelshCe,
       @Value("${notify.templateWelshAndEnglishCe}") String templateWelshAndEnglishCe) {
