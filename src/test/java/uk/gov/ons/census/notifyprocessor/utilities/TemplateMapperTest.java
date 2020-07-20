@@ -31,9 +31,9 @@ public class TemplateMapperTest {
             "TemplateWelshIndividualResponse",
             "TemplateWelshAndEnglishIndividualResponse",
             "TemplateNorthernIrelandIndividualResponse",
-            "TemplateEnglishCeManager",
-            "TemplateWelshCeManager",
-            "TemplateWelshAndEnglishCeManager");
+            "TemplateEnglishCe",
+            "TemplateWelshCe",
+            "TemplateWelshAndEnglishCe");
 
     testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglishHouseHold");
     testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglishHouseHold");
@@ -43,9 +43,9 @@ public class TemplateMapperTest {
     testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglishIndividualResponse");
     testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "TemplateWelshIndividualResponse");
     testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIrelandIndividualResponse");
-    testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglishCeManager");
-    testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglishCeManager");
-    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelshCeManager");
+    testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglishCe");
+    testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglishCe");
+    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelshCe");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 

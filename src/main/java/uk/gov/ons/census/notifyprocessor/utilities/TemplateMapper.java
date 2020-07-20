@@ -26,9 +26,9 @@ public class TemplateMapper {
   private final String templateWelshIndividualResponse;
   private final String templateWelshAndEnglishIndividualResponse;
   private final String templateNorthernIrelandIndividualResponse;
-  private final String templateEnglishCeManager;
-  private final String templateWelshCeManager;
-  private final String templateWelshAndEnglishCeManager;
+  private final String templateEnglishCe;
+  private final String templateWelshCe;
+  private final String templateWelshAndEnglishCe;
 
   public TemplateMapper(
       @Value("${notify.templateEnglishHouseHold}") String templateEnglishHouseHold,
@@ -39,9 +39,9 @@ public class TemplateMapper {
       @Value("${notify.templateWelshIndividualResponse}") String templateWelshIndividualResponse,
       @Value("${notify.templateWelshAndEnglishIndividualResponse}") String templateWelshAndEnglishIndividualResponse,
       @Value("${notify.templateNorthernIrelandIndividualResponse}") String templateNorthernIrelandIndividualResponse,
-      @Value("${notify.templateEnglishCeManager}") String templateEnglishCeManager,
-      @Value("${notify.templateWelshCeManager}") String templateWelshCeManager,
-      @Value("${notify.templateWelshAndEnglishCeManager}") String templateWelshAndEnglishCeManager) {
+      @Value("${notify.templateEnglishCe}") String templateEnglishCe,
+      @Value("${notify.templateWelshCe}") String templateWelshCe,
+      @Value("${notify.templateWelshAndEnglishCe}") String templateWelshAndEnglishCe) {
     this.templateEnglishHouseHold = templateEnglishHouseHold;
     this.templateWelshHouseHold = templateWelshHouseHold;
     this.templateWelshAndEnglishHouseHold = templateWelshAndEnglishHouseHold;
@@ -50,15 +50,15 @@ public class TemplateMapper {
     this.templateWelshIndividualResponse = templateWelshIndividualResponse;
     this.templateWelshAndEnglishIndividualResponse = templateWelshAndEnglishIndividualResponse;
     this.templateNorthernIrelandIndividualResponse = templateNorthernIrelandIndividualResponse;
-    this.templateEnglishCeManager = templateEnglishCeManager;
-    this.templateWelshCeManager = templateWelshCeManager;
-    this.templateWelshAndEnglishCeManager = templateWelshAndEnglishCeManager;
+    this.templateEnglishCe = templateEnglishCe;
+    this.templateWelshCe = templateWelshCe;
+    this.templateWelshAndEnglishCe = templateWelshAndEnglishCe;
   }
 
   public Tuple getTemplate(String fulfilmentCode) {
     Tuple result = null;
     switch (fulfilmentCode) {
-      case " UACHHT1":
+      case "UACHHT1":
         result = new Tuple(HOUSEHOLD_ENGLAND, templateEnglishHouseHold);
         break;
       case "UACHHT2":
@@ -83,13 +83,13 @@ public class TemplateMapper {
         result = new Tuple(INDIVIDUAL_RESPONSE_NI, templateNorthernIrelandIndividualResponse);
         break;
       case "UACCET1":
-        result = new Tuple(CE_ENGLAND, templateEnglishCeManager);
+        result = new Tuple(CE_ENGLAND, templateEnglishCe);
         break;
       case "UACCET2":
-        result = new Tuple(CE_WALES, templateWelshAndEnglishCeManager);
+        result = new Tuple(CE_WALES, templateWelshAndEnglishCe);
         break;
       case "UACCET2W":
-        result = new Tuple(CE_WALES_IN_WELSH, templateWelshCeManager);
+        result = new Tuple(CE_WALES_IN_WELSH, templateWelshCe);
         break;
 
       default:
