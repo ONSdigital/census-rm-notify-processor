@@ -23,22 +23,29 @@ public class TemplateMapperTest {
 
     TemplateMapper underTest =
         new TemplateMapper(
-            "TemplateEnglish",
-            "TemplateWelsh",
-            "TemplateWelshAndEnglish",
-            "TemplateNorthernIreland");
+            "TemplateEnglishHouseHold",
+            "TemplateWelshHouseHold",
+            "TemplateWelshAndEnglishHouseHold",
+            "TemplateNorthernIrelandHouseHold",
+            "TemplateEnglishIndividualResponse",
+            "TemplateWelshIndividualResponse",
+            "TemplateWelshAndEnglishIndividualResponse",
+            "TemplateNorthernIrelandIndividualResponse",
+            "TemplateEnglishCeManager",
+            "TemplateWelshCeManager",
+            "TemplateWelshAndEnglishCeManager");
 
-    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglish");
-    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "TemplateWelsh");
-    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIreland");
-    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglish");
-    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "TemplateWelsh");
-    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIreland");
-    testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglish");
-    testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelsh");
+    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglishHouseHold");
+    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglishHouseHold");
+    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "TemplateWelshHouseHold");
+    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIrelandHouseHold");
+    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglishIndividualResponse");
+    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglishIndividualResponse");
+    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "TemplateWelshIndividualResponse");
+    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIrelandIndividualResponse");
+    testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglishCeManager");
+    testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglishCeManager");
+    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelshCeManager");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 
