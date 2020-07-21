@@ -64,8 +64,8 @@ public class FulfilmentRequestService {
 
     String caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getCaseId();
 
-    if (individualResponseRequestCodes.contains(fulfilmentCode) &&
-            (fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId() != null)) {
+    if (individualResponseRequestCodes.contains(fulfilmentCode)
+        && (fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId() != null)) {
       caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId();
     }
 
