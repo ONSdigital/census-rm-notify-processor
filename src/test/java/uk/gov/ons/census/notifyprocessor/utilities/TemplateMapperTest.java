@@ -23,39 +23,29 @@ public class TemplateMapperTest {
 
     TemplateMapper underTest =
         new TemplateMapper(
-            "TemplateEnglishHouseHold",
-            "TemplateWelshHouseHold",
-            "TemplateWelshAndEnglishHouseHold",
-            "TemplateNorthernIrelandHouseHold",
-            "TemplateEnglishIndividualResponse",
-            "TemplateWelshIndividualResponse",
-            "TemplateWelshAndEnglishIndividualResponse",
-            "TemplateNorthernIrelandIndividualResponse",
-            "TemplateEnglishCe",
-            "TemplateWelshCe",
-            "TemplateWelshAndEnglishCe");
+            "UACHHT1",
+            "UACHHT2W",
+            "UACHHT2",
+            "UACHHT4",
+            "UACIT1",
+            "UACIT2W",
+            "UACIT2",
+            "UACIT4",
+            "UACCET1",
+            "UACCET2W",
+            "UACCET2");
 
-    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglishHouseHold");
-    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglishHouseHold");
-    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "TemplateWelshHouseHold");
-    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIrelandHouseHold");
-    testTemplate(
-        underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglishIndividualResponse");
-    testTemplate(
-        underTest,
-        "UACIT2",
-        INDIVIDUAL_RESPONSE_WALES,
-        "TemplateWelshAndEnglishIndividualResponse");
-    testTemplate(
-        underTest,
-        "UACIT2W",
-        INDIVIDUAL_RESPONSE_WALES_IN_WELSH,
-        "TemplateWelshIndividualResponse");
-    testTemplate(
-        underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIrelandIndividualResponse");
-    testTemplate(underTest, "UACCET1", CE_ENGLAND, "TemplateEnglishCe");
-    testTemplate(underTest, "UACCET2", CE_WALES, "TemplateWelshAndEnglishCe");
-    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "TemplateWelshCe");
+    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "UACHHT1");
+    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "UACHHT2");
+    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "UACHHT2W");
+    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "UACHHT4");
+    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "UACIT1");
+    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "UACIT2");
+    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "UACIT2W");
+    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "UACIT4");
+    testTemplate(underTest, "UACCET1", CE_ENGLAND, "UACCET1");
+    testTemplate(underTest, "UACCET2", CE_WALES, "UACCET2");
+    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "UACCET2W");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 
