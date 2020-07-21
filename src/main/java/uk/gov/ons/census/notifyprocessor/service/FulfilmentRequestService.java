@@ -13,12 +13,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import uk.gov.ons.census.notifyprocessor.cache.UacQidCache;
-import uk.gov.ons.census.notifyprocessor.model.EnrichedFulfilmentRequest;
-import uk.gov.ons.census.notifyprocessor.model.Event;
-import uk.gov.ons.census.notifyprocessor.model.Payload;
-import uk.gov.ons.census.notifyprocessor.model.ResponseManagementEvent;
-import uk.gov.ons.census.notifyprocessor.model.UacQid;
-import uk.gov.ons.census.notifyprocessor.model.UacQidCreated;
+import uk.gov.ons.census.notifyprocessor.model.*;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.Tuple;
 
@@ -69,7 +64,8 @@ public class FulfilmentRequestService {
 
     String caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getCaseId();
 
-    if (individualResponseRequestCodes.contains(fulfilmentCode)) {
+    if (individualResponseRequestCodes.contains(fulfilmentCode) &&
+            (fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId() != null)) {
       caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId();
     }
 
