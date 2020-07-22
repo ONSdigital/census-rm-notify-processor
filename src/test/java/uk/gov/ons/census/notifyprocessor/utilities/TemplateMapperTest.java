@@ -14,25 +14,38 @@ public class TemplateMapperTest {
   private static final int INDIVIDUAL_RESPONSE_WALES = 22;
   private static final int INDIVIDUAL_RESPONSE_WALES_IN_WELSH = 23;
   private static final int INDIVIDUAL_RESPONSE_NI = 24;
+  private static final int CE_ENGLAND = 31;
+  private static final int CE_WALES = 32;
+  private static final int CE_WALES_IN_WELSH = 33;
 
   @Test
   public void testGetTemplate() {
 
     TemplateMapper underTest =
         new TemplateMapper(
-            "TemplateEnglish",
-            "TemplateWelsh",
-            "TemplateWelshAndEnglish",
-            "TemplateNorthernIreland");
+            "UACHHT1",
+            "UACHHT2W",
+            "UACHHT2",
+            "UACHHT4",
+            "UACIT1",
+            "UACIT2W",
+            "UACIT2",
+            "UACIT4",
+            "UACCET1",
+            "UACCET2W",
+            "UACCET2");
 
-    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "TemplateEnglish");
-    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "TemplateWelsh");
-    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "TemplateNorthernIreland");
-    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "TemplateEnglish");
-    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "TemplateWelshAndEnglish");
-    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "TemplateWelsh");
-    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "TemplateNorthernIreland");
+    testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "UACHHT1");
+    testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "UACHHT2");
+    testTemplate(underTest, "UACHHT2W", HOUSEHOLD_WALES_IN_WELSH, "UACHHT2W");
+    testTemplate(underTest, "UACHHT4", HOUSEHOLD_NI, "UACHHT4");
+    testTemplate(underTest, "UACIT1", INDIVIDUAL_RESPONSE_ENGLAND, "UACIT1");
+    testTemplate(underTest, "UACIT2", INDIVIDUAL_RESPONSE_WALES, "UACIT2");
+    testTemplate(underTest, "UACIT2W", INDIVIDUAL_RESPONSE_WALES_IN_WELSH, "UACIT2W");
+    testTemplate(underTest, "UACIT4", INDIVIDUAL_RESPONSE_NI, "UACIT4");
+    testTemplate(underTest, "UACCET1", CE_ENGLAND, "UACCET1");
+    testTemplate(underTest, "UACCET2", CE_WALES, "UACCET2");
+    testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "UACCET2W");
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 

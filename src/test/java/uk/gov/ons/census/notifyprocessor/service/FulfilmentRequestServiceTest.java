@@ -14,10 +14,7 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import uk.gov.ons.census.notifyprocessor.cache.UacQidCache;
-import uk.gov.ons.census.notifyprocessor.model.EnrichedFulfilmentRequest;
-import uk.gov.ons.census.notifyprocessor.model.EventType;
-import uk.gov.ons.census.notifyprocessor.model.ResponseManagementEvent;
-import uk.gov.ons.census.notifyprocessor.model.UacQid;
+import uk.gov.ons.census.notifyprocessor.model.*;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.Tuple;
 
@@ -100,6 +97,44 @@ public class FulfilmentRequestServiceTest {
     assertThat(rmEvent.getPayload().getUacQidCreated().getUac()).isEqualTo(uacQid.getUac());
     assertThat(rmEvent.getPayload().getUacQidCreated().getCaseId())
         .isEqualTo(event.getPayload().getFulfilmentRequest().getIndividualCaseId());
+    verify(uacQidCache).getUacQidPair(eq(1));
+  }
+
+  @Test
+  public void testProcessCeSpgIndividualRequestMessage() {
+    // Given
+    EasyRandom easyRandom = new EasyRandom();
+    UacQidCache uacQidCache = mock(UacQidCache.class);
+    UacQid uacQid = easyRandom.nextObject(UacQid.class);
+    uacQid.setUac("aaaabbbbccccdddd");
+    TemplateMapper templateMapper = mock(TemplateMapper.class);
+    RabbitTemplate rabbitTemplate = mock(RabbitTemplate.class);
+    when(uacQidCache.getUacQidPair(anyInt())).thenReturn(uacQid);
+    when(templateMapper.getTemplate(anyString())).thenReturn(new Tuple(1, "testTemplate"));
+    FulfilmentRequestService underTest =
+        new FulfilmentRequestService(
+            uacQidCache, templateMapper, rabbitTemplate, "testExchange", "testOtherExchange");
+
+    ResponseManagementEvent event = easyRandom.nextObject(ResponseManagementEvent.class);
+    event.getPayload().getFulfilmentRequest().setFulfilmentCode("UACIT1");
+    event.getPayload().getFulfilmentRequest().setIndividualCaseId(null);
+
+    // When
+    underTest.processMessage(event);
+
+    // Then
+    ArgumentCaptor<ResponseManagementEvent> rmEventArgCaptor =
+        ArgumentCaptor.forClass(ResponseManagementEvent.class);
+    verify(rabbitTemplate)
+        .convertAndSend(eq("testOtherExchange"), eq(""), rmEventArgCaptor.capture());
+    ResponseManagementEvent rmEvent = rmEventArgCaptor.getValue();
+    assertThat(rmEvent.getEvent().getType()).isEqualTo(EventType.RM_UAC_CREATED);
+    assertThat(rmEvent.getPayload().getUacQidCreated().getQid()).isEqualTo(uacQid.getQid());
+    assertThat(rmEvent.getPayload().getUacQidCreated().getUac()).isEqualTo(uacQid.getUac());
+    assertThat(rmEvent.getPayload().getUacQidCreated().getCaseId())
+        .isNotEqualTo(event.getPayload().getFulfilmentRequest().getIndividualCaseId());
+    assertThat(rmEvent.getPayload().getUacQidCreated().getCaseId())
+        .isEqualTo(event.getPayload().getFulfilmentRequest().getCaseId());
     verify(uacQidCache).getUacQidPair(eq(1));
   }
 
