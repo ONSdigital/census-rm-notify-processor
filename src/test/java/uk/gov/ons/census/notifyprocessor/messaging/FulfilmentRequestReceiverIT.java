@@ -7,6 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import org.jeasy.random.EasyRandom;
@@ -73,7 +74,7 @@ public class FulfilmentRequestReceiverIT {
     responseManagementEvent.setEvent(new Event());
     responseManagementEvent.setPayload(new Payload());
     responseManagementEvent.getPayload().setFulfilmentRequest(new FulfilmentRequest());
-    responseManagementEvent.getPayload().getFulfilmentRequest().setCaseId("test caseId");
+    responseManagementEvent.getPayload().getFulfilmentRequest().setCaseId(UUID.randomUUID());
     responseManagementEvent.getPayload().getFulfilmentRequest().setFulfilmentCode("UACHHT1");
     responseManagementEvent.getPayload().getFulfilmentRequest().setContact(new Contact());
     responseManagementEvent.getPayload().getFulfilmentRequest().getContact().setTelNo("012345");
@@ -106,8 +107,7 @@ public class FulfilmentRequestReceiverIT {
         objectMapper.readValue(actualUacQidCreateMessage, ResponseManagementEvent.class);
     assertThat(actualRmUacQidCreateEvent.getEvent().getType()).isEqualTo(EventType.RM_UAC_CREATED);
     assertThat(actualRmUacQidCreateEvent.getPayload().getUacQidCreated().getCaseId())
-        .isEqualTo(
-            responseManagementEvent.getPayload().getFulfilmentRequest().getCaseId().toString());
+        .isEqualTo(responseManagementEvent.getPayload().getFulfilmentRequest().getCaseId());
     assertThat(actualRmUacQidCreateEvent.getPayload().getUacQidCreated().getQid())
         .isEqualTo(uacQid.getQid());
     assertThat(actualRmUacQidCreateEvent.getPayload().getUacQidCreated().getUac())
