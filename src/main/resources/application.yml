@@ -13,7 +13,6 @@ queueconfig:
   enriched-fulfilment-queue: notify.enriched.fulfilment
   uac-qid-created-exchange: uac-qid-created-exchange
   consumers: 50
-  retry-attempts: 3
   retry-delay: 1000 #milliseconds
 
 healthcheck:
@@ -44,7 +43,7 @@ uacservice:
 
   uacqid-cache-min: 500
   uacqid-fetch-count: 1000
-  uacqid-get-timeout: 5   #seconds
+  uacqid-get-timeout: 60   #seconds
 
 exceptionmanager:
   connection:
