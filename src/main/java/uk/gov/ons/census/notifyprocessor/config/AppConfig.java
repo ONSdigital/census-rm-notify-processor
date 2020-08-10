@@ -43,11 +43,6 @@ public class AppConfig {
   }
 
   @Bean
-  public PlatformTransactionManager transactionManager(ConnectionFactory connectionFactory) {
-    return new RabbitTransactionManager(connectionFactory);
-  }
-
-  @Bean
   public RestTemplate restTemplate() {
     return new RestTemplate();
   }
