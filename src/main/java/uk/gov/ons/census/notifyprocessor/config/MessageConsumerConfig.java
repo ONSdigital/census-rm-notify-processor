@@ -17,7 +17,6 @@ import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.interceptor.RetryOperationsInterceptor;
-import org.springframework.transaction.PlatformTransactionManager;
 import uk.gov.ons.census.notifyprocessor.client.ExceptionManagerClient;
 import uk.gov.ons.census.notifyprocessor.messaging.ManagedMessageRecoverer;
 import uk.gov.ons.census.notifyprocessor.model.EnrichedFulfilmentRequest;
@@ -47,8 +46,7 @@ public class MessageConsumerConfig {
   private String enrichedFulfilmentQueue;
 
   public MessageConsumerConfig(
-      ExceptionManagerClient exceptionManagerClient,
-      ConnectionFactory connectionFactory) {
+      ExceptionManagerClient exceptionManagerClient, ConnectionFactory connectionFactory) {
     this.exceptionManagerClient = exceptionManagerClient;
     this.connectionFactory = connectionFactory;
   }
