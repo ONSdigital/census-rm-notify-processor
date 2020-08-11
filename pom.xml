@@ -66,6 +66,10 @@
       <artifactId>notifications-java-client</artifactId>
       <version>3.9.2-RELEASE</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+    </dependency>
 
     <!--    Test Dependencies below this point -->
     <dependency>
