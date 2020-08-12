@@ -6,6 +6,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
@@ -44,6 +46,12 @@ public class FulfilmentRequestReceiverIT {
   private static final String MULTIPLE_QIDS_URL = "/multiple_qids";
   public static final String SMS_NOTIFY_API_URL = "/v2/notifications/sms";
   private static final String CASE_UAC_QID_CREATED_QUEUE = "case.uac-qid-created";
+  private static final ObjectMapper objectMapper = new ObjectMapper();
+
+  static {
+    objectMapper.registerModule(new JavaTimeModule());
+    objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+  }
 
   @Autowired private RabbitQueueHelper rabbitQueueHelper;
 
@@ -54,8 +62,6 @@ public class FulfilmentRequestReceiverIT {
 
   @Value("${queueconfig.fulfilment-routing-key}")
   private String caseProcessorFulfilmentRoutingKeyCase;
-
-  private ObjectMapper objectMapper = new ObjectMapper();
 
   @Before
   @Transactional

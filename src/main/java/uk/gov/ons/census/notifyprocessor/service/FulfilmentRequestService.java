@@ -3,8 +3,6 @@ package uk.gov.ons.census.notifyprocessor.service;
 import static uk.gov.ons.census.notifyprocessor.model.EventType.RM_UAC_CREATED;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -96,7 +94,7 @@ public class FulfilmentRequestService {
 
     Event event = new Event();
     event.setType(RM_UAC_CREATED);
-    event.setDateTime(DateTimeFormatter.ISO_DATE_TIME.format(OffsetDateTime.now(ZoneId.of("UTC"))));
+    event.setDateTime(OffsetDateTime.now());
     event.setTransactionId(UUID.randomUUID());
     ResponseManagementEvent responseManagementEvent = new ResponseManagementEvent();
     responseManagementEvent.setEvent(event);
