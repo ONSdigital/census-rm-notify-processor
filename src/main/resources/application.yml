@@ -13,7 +13,8 @@ queueconfig:
   enriched-fulfilment-queue: notify.enriched.fulfilment
   uac-qid-created-exchange: uac-qid-created-exchange
   consumers: 50
-  retry-delay: 3000 #milliseconds
+  retry-attempts: 3
+  retry-delay: 1000 #milliseconds
 
 healthcheck:
   frequency: 1000 #milliseconds
