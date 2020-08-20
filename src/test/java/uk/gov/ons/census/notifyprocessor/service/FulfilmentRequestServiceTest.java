@@ -9,6 +9,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.UUID;
 import org.jeasy.random.EasyRandom;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -19,6 +20,10 @@ import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper;
 import uk.gov.ons.census.notifyprocessor.utilities.TemplateMapper.Tuple;
 
 public class FulfilmentRequestServiceTest {
+
+  private static final String TEST_SOURCE = "TestSource";
+  private static final String TEST_CHANNEL = "TestChannel";
+  private static final UUID TEST_TRANSACTION_ID = UUID.randomUUID();
 
   @Test
   public void testProcessMessage() {
@@ -37,6 +42,9 @@ public class FulfilmentRequestServiceTest {
 
     ResponseManagementEvent event = easyRandom.nextObject(ResponseManagementEvent.class);
     event.getPayload().getFulfilmentRequest().setFulfilmentCode("UACHHT1");
+    event.getEvent().setTransactionId(TEST_TRANSACTION_ID);
+    event.getEvent().setSource(TEST_SOURCE);
+    event.getEvent().setChannel(TEST_CHANNEL);
 
     // When
     underTest.processMessage(event);
@@ -50,6 +58,10 @@ public class FulfilmentRequestServiceTest {
         .convertAndSend(eq("testOtherExchange"), eq(""), rmEventArgCaptor.capture());
     ResponseManagementEvent rmEvent = rmEventArgCaptor.getValue();
     assertThat(rmEvent.getEvent().getType()).isEqualTo(EventType.RM_UAC_CREATED);
+    assertThat(rmEvent.getEvent().getTransactionId()).isEqualTo(TEST_TRANSACTION_ID);
+    assertThat(rmEvent.getEvent().getSource()).isEqualTo(TEST_SOURCE);
+    assertThat(rmEvent.getEvent().getChannel()).isEqualTo(TEST_CHANNEL);
+
     assertThat(rmEvent.getPayload().getUacQidCreated().getQid()).isEqualTo(uacQid.getQid());
     assertThat(rmEvent.getPayload().getUacQidCreated().getUac()).isEqualTo(uacQid.getUac());
     assertThat(rmEvent.getPayload().getUacQidCreated().getCaseId())
