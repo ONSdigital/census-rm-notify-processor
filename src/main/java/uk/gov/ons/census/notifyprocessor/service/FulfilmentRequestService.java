@@ -67,7 +67,7 @@ public class FulfilmentRequestService {
       caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId();
     }
 
-    UacQid uacqid = getUacQidPair(tuple.getQuestionnaireType(), caseId);
+    UacQid uacqid = getUacQidPair(tuple.getQuestionnaireType(), caseId, fulfilmentEvent.getEvent());
 
     EnrichedFulfilmentRequest enrichedFulfilmentRequest = new EnrichedFulfilmentRequest();
     enrichedFulfilmentRequest.setTemplateId(tuple.getTemplateId());
@@ -84,7 +84,7 @@ public class FulfilmentRequestService {
     rabbitTemplate.convertAndSend(enrichedFulfilmentExchange, "", enrichedFulfilmentRequest);
   }
 
-  private UacQid getUacQidPair(int questionnaireType, UUID caseId) {
+  private UacQid getUacQidPair(int questionnaireType, UUID caseId, Event receivedEvent) {
     UacQid uacqid = uacQidCache.getUacQidPair(questionnaireType);
 
     UacQidCreated uacQidCreated = new UacQidCreated();
@@ -95,7 +95,9 @@ public class FulfilmentRequestService {
     Event event = new Event();
     event.setType(RM_UAC_CREATED);
     event.setDateTime(OffsetDateTime.now());
-    event.setTransactionId(UUID.randomUUID());
+    event.setTransactionId(receivedEvent.getTransactionId());
+    event.setChannel(receivedEvent.getChannel());
+    event.setSource(receivedEvent.getSource());
     ResponseManagementEvent responseManagementEvent = new ResponseManagementEvent();
     responseManagementEvent.setEvent(event);
     Payload payload = new Payload();

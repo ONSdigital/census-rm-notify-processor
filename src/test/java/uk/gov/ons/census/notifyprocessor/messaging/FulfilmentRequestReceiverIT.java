@@ -47,6 +47,7 @@ public class FulfilmentRequestReceiverIT {
   public static final String SMS_NOTIFY_API_URL = "/v2/notifications/sms";
   private static final String CASE_UAC_QID_CREATED_QUEUE = "case.uac-qid-created";
   private static final ObjectMapper objectMapper = new ObjectMapper();
+  private static final UUID TEST_TRANSACTION_ID = UUID.randomUUID();
 
   static {
     objectMapper.registerModule(new JavaTimeModule());
@@ -84,6 +85,9 @@ public class FulfilmentRequestReceiverIT {
     responseManagementEvent.getPayload().getFulfilmentRequest().setFulfilmentCode("UACHHT1");
     responseManagementEvent.getPayload().getFulfilmentRequest().setContact(new Contact());
     responseManagementEvent.getPayload().getFulfilmentRequest().getContact().setTelNo("012345");
+    responseManagementEvent.getEvent().setTransactionId(TEST_TRANSACTION_ID);
+    responseManagementEvent.getEvent().setChannel("TestChannel");
+    responseManagementEvent.getEvent().setSource("TestSource");
 
     UacQid uacQid = stubCreateUacQid(1);
 
@@ -112,6 +116,9 @@ public class FulfilmentRequestReceiverIT {
     ResponseManagementEvent actualRmUacQidCreateEvent =
         objectMapper.readValue(actualUacQidCreateMessage, ResponseManagementEvent.class);
     assertThat(actualRmUacQidCreateEvent.getEvent().getType()).isEqualTo(EventType.RM_UAC_CREATED);
+    assertThat(actualRmUacQidCreateEvent.getEvent().getTransactionId())
+        .isEqualTo(TEST_TRANSACTION_ID);
+
     assertThat(actualRmUacQidCreateEvent.getPayload().getUacQidCreated().getCaseId())
         .isEqualTo(responseManagementEvent.getPayload().getFulfilmentRequest().getCaseId());
     assertThat(actualRmUacQidCreateEvent.getPayload().getUacQidCreated().getQid())
