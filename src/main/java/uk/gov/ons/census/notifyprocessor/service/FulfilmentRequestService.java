@@ -67,11 +67,7 @@ public class FulfilmentRequestService {
       caseId = fulfilmentEvent.getPayload().getFulfilmentRequest().getIndividualCaseId();
     }
 
-    UacQid uacqid =
-        getUacQidPair(
-            tuple.getQuestionnaireType(),
-            caseId,
-            fulfilmentEvent.getEvent());
+    UacQid uacqid = getUacQidPair(tuple.getQuestionnaireType(), caseId, fulfilmentEvent.getEvent());
 
     EnrichedFulfilmentRequest enrichedFulfilmentRequest = new EnrichedFulfilmentRequest();
     enrichedFulfilmentRequest.setTemplateId(tuple.getTemplateId());
@@ -88,8 +84,7 @@ public class FulfilmentRequestService {
     rabbitTemplate.convertAndSend(enrichedFulfilmentExchange, "", enrichedFulfilmentRequest);
   }
 
-  private UacQid getUacQidPair(
-      int questionnaireType, UUID caseId, Event receivedEvent) {
+  private UacQid getUacQidPair(int questionnaireType, UUID caseId, Event receivedEvent) {
     UacQid uacqid = uacQidCache.getUacQidPair(questionnaireType);
 
     UacQidCreated uacQidCreated = new UacQidCreated();
