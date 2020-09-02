@@ -25,6 +25,9 @@ The following fulfilment codes are currently supported:
 |CE UAC England | UACCET1|
 |CE UAC Wales (English) | UACCET2|
 |CE UAC Wales (Welsh) | UACCET2W|
+|Individual access code requested via eQ for England | UACITA1|
+|Individual access code requested via eQ for Wales (Bilingual) | UACITA2B|
+|Individual access code requested via eQ for Northern Ireland | UACITA4|
 
 # Overview
 
@@ -69,6 +72,9 @@ notify:
   UACCET1: 21f22f8d-2642-444e-9d13-a54b87647a93
   UACCET2W: 2c12a125-4035-4b81-9988-204e02e759a5
   UACCET2: b2b9e650-cb22-49d7-b5da-95169e13ea12
+  UACITA1: c6548c71-abd0-4990-aeb5-a7d5854f8da0
+  UACITA2B: 203b931c-4a79-48f4-8475-6dd8acf04d9b
+  UACITA4: ef3c0cfe-582e-4952-9316-d8f602a8323a
   senderId: ae14c5b3-f317-4051-834c-644f0c236347
 
 caseapi:
