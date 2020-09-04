@@ -56,7 +56,6 @@
         "x-dead-letter-routing-key": "case.uac-qid-created"
       }
     },
-
     {
       "name": "delayedRedeliveryQueue",
       "vhost": "/",
