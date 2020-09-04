@@ -33,7 +33,10 @@ public class TemplateMapperTest {
             "UACIT4",
             "UACCET1",
             "UACCET2W",
-            "UACCET2");
+            "UACCET2",
+            "UACITA1",
+            "UACITA2B",
+            "UACITA4");
 
     testTemplate(underTest, "UACHHT1", HOUSEHOLD_ENGLAND, "UACHHT1");
     testTemplate(underTest, "UACHHT2", HOUSEHOLD_WALES, "UACHHT2");
@@ -46,6 +49,10 @@ public class TemplateMapperTest {
     testTemplate(underTest, "UACCET1", CE_ENGLAND, "UACCET1");
     testTemplate(underTest, "UACCET2", CE_WALES, "UACCET2");
     testTemplate(underTest, "UACCET2W", CE_WALES_IN_WELSH, "UACCET2W");
+    testTemplate(underTest, "UACITA1", INDIVIDUAL_RESPONSE_ENGLAND, "UACITA1");
+    testTemplate(underTest, "UACITA2B", INDIVIDUAL_RESPONSE_WALES, "UACITA2B");
+    testTemplate(underTest, "UACITA4", INDIVIDUAL_RESPONSE_NI, "UACITA4");
+
     assertThat(underTest.getTemplate("Wibble")).isNull();
   }
 

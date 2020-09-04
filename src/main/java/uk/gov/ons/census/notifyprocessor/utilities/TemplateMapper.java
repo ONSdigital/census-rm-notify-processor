@@ -29,6 +29,9 @@ public class TemplateMapper {
   private final String UACCET1;
   private final String UACCET2W;
   private final String UACCET2;
+  private final String UACITA1;
+  private final String UACITA2B;
+  private final String UACITA4;
 
   public TemplateMapper(
       @Value("${notify.UACHHT1}") String UACHHT1,
@@ -41,7 +44,10 @@ public class TemplateMapper {
       @Value("${notify.UACIT4}") String UACIT4,
       @Value("${notify.UACCET1}") String UACCET1,
       @Value("${notify.UACCET2W}") String UACCET2W,
-      @Value("${notify.UACCET2}") String UACCET2) {
+      @Value("${notify.UACCET2}") String UACCET2,
+      @Value("${notify.UACITA1}") String UACITA1,
+      @Value("${notify.UACITA2B}") String UACITA2B,
+      @Value("${notify.UACITA4}") String UACITA4) {
     this.UACHHT1 = UACHHT1;
     this.UACHHT2W = UACHHT2W;
     this.UACHHT2 = UACHHT2;
@@ -53,6 +59,9 @@ public class TemplateMapper {
     this.UACCET1 = UACCET1;
     this.UACCET2W = UACCET2W;
     this.UACCET2 = UACCET2;
+    this.UACITA1 = UACITA1;
+    this.UACITA2B = UACITA2B;
+    this.UACITA4 = UACITA4;
   }
 
   public Tuple getTemplate(String fulfilmentCode) {
@@ -90,6 +99,15 @@ public class TemplateMapper {
         break;
       case "UACCET2W":
         result = new Tuple(CE_WALES_IN_WELSH, UACCET2W);
+        break;
+      case "UACITA1":
+        result = new Tuple(INDIVIDUAL_RESPONSE_ENGLAND, UACITA1);
+        break;
+      case "UACITA2B":
+        result = new Tuple(INDIVIDUAL_RESPONSE_WALES, UACITA2B);
+        break;
+      case "UACITA4":
+        result = new Tuple(INDIVIDUAL_RESPONSE_NI, UACITA4);
         break;
 
       default:
