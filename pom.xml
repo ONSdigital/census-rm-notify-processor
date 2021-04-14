@@ -14,21 +14,6 @@
     <version>2.2.7.RELEASE</version>
   </parent>
 
-  <profiles>
-    <profile>
-      <id>bintray</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <repositories>
-        <repository>
-          <id>notify-repo</id>
-          <url>https://dl.bintray.com/gov-uk-notify/maven</url>
-        </repository>
-      </repositories>
-    </profile>
-  </profiles>
-
   <properties>
     <maven.compiler.release>11</maven.compiler.release>
   </properties>
